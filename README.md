@@ -78,6 +78,37 @@ cmd /c "npx vite"
 
 ---
 
+## 🌐 How to Deploy Online (Free)
+
+### 🥇 Option 1: Render (Recommended — Full-Stack in 1 Web Service)
+This is the easiest method because Render serves both the React Frontend and Flask Machine Learning API from a single free URL.
+
+1. Go to [render.com](https://render.com) and log in with GitHub.
+2. Click **New +** → **Web Service**.
+3. Select and connect your repository: `Jithamanyu0210/FoodDeliveryTime`.
+4. Fill in the following settings:
+   - **Name**: `food-delivery-time-prediction`
+   - **Language / Runtime**: `Python 3`
+   - **Build Command**: `bash build.sh`
+   - **Start Command**: `gunicorn --chdir backend app:app`
+5. Click **Create Web Service**.
+6. Render will automatically build the React frontend, install dependencies, load the ML models, and give you a live URL (e.g., `https://food-delivery-time-prediction.onrender.com`).
+
+---
+
+### 🥈 Option 2: Deploy Frontend to Vercel (Separated Architecture)
+
+If you wish to host the React UI on Vercel:
+1. First, deploy your backend on Render (see Option 1) or Railway to get your live API URL (e.g. `https://food-delivery-time-prediction.onrender.com`).
+2. Go to [vercel.com](https://vercel.com) and click **Add New...** → **Project**.
+3. Import your GitHub repository `FoodDeliveryTime`.
+4. In the **Environment Variables** section, add:
+   - **Key**: `VITE_API_URL`
+   - **Value**: `https://<your-render-backend-url>.onrender.com` *(your live backend URL)*
+5. Click **Deploy**. Vercel will automatically run `cd frontend && npm install && npm run build` and launch your UI.
+
+---
+
 ## 📁 Repository Structure
 
 ```

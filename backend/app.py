@@ -3,25 +3,39 @@ import sys
 import json
 import datetime
 
-# Ensure site-packages are in path
+# Ensure site-packages are in path for local windows python if present
 site_pkg = r'C:\Users\ADMIN\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages'
 if os.path.exists(site_pkg) and site_pkg not in sys.path:
     sys.path.insert(0, site_pkg)
 
-from flask import Flask, request, jsonify
+# Add current directory and parent directory to sys.path for robust imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+for d in [current_dir, parent_dir]:
+    if d not in sys.path:
+        sys.path.insert(0, d)
+
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import joblib
 import numpy as np
 import pandas as pd
 
-from utils.feature_engineering import prepare_input_features
+try:
+    from utils.feature_engineering import prepare_input_features
+except ImportError:
+    from backend.utils.feature_engineering import prepare_input_features
 
-app = Flask(__name__)
+# Determine frontend static build directory
+FRONTEND_DIST = os.path.join(parent_dir, 'frontend', 'dist')
+STATIC_FOLDER = FRONTEND_DIST if os.path.exists(FRONTEND_DIST) else os.path.join(current_dir, 'static')
+
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path='/')
 CORS(app)
 
-MODELS_PATH = os.path.join(os.path.dirname(__file__), 'model', 'models.joblib')
-SINGLE_MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model', 'delivery_model.joblib')
-RESULTS_PATH = os.path.join(os.path.dirname(__file__), 'model', 'evaluation_results.json')
+MODELS_PATH = os.path.join(current_dir, 'model', 'models.joblib')
+SINGLE_MODEL_PATH = os.path.join(current_dir, 'model', 'delivery_model.joblib')
+RESULTS_PATH = os.path.join(current_dir, 'model', 'evaluation_results.json')
 
 models_dict = {}
 evaluation_metrics_map = {
@@ -64,6 +78,7 @@ def load_trained_models():
 
 load_trained_models()
 
+# API Endpoints
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({
@@ -215,6 +230,23 @@ def predict_delivery_time():
             'success': False,
             'error': str(e)
         }), 500
+
+# Catch-all route to serve React frontend SPA
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_static(path):
+    if app.static_folder and os.path.exists(app.static_folder):
+        file_path = os.path.join(app.static_folder, path)
+        if path != "" and os.path.exists(file_path):
+            return send_from_directory(app.static_folder, path)
+        index_file = os.path.join(app.static_folder, 'index.html')
+        if os.path.exists(index_file):
+            return send_from_directory(app.static_folder, 'index.html')
+    return jsonify({
+        'message': 'Food Delivery Time Prediction API is running.',
+        'health_check': '/api/health',
+        'models': '/api/models'
+    }), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
