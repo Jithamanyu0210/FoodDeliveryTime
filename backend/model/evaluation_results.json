@@ -1,4 +1,17 @@
 {
+  "system_info": {
+    "project_name": "Food Delivery Time Prediction",
+    "dataset_name": "Kaggle Zomato Delivery Dataset",
+    "default_model": "Gradient Boosting Regressor",
+    "training_date": "2026-09-21 14:12:23",
+    "total_records": 45584,
+    "training_records": 36467,
+    "test_records": 9117,
+    "total_features": 12,
+    "model_version": "v2.0 (Multi-Model System)",
+    "model_status": "Active & Operational",
+    "api_status": "Online"
+  },
   "dataset_summary": {
     "total_records": 45584,
     "total_features": 12,
@@ -9,22 +22,464 @@
   },
   "model_comparison": [
     {
-      "model_name": "Linear Regression (Baseline)",
-      "mae": 4.82,
-      "mse": 36.84,
-      "rmse": 6.07,
-      "r2_score": 0.5828,
+      "model_name": "Gradient Boosting Regressor",
+      "mae": 3.3,
+      "mse": 17.16,
+      "rmse": 4.14,
+      "r2_score": 0.8055,
+      "selected": true
+    },
+    {
+      "model_name": "Decision Tree Regressor",
+      "mae": 3.3,
+      "mse": 17.77,
+      "rmse": 4.21,
+      "r2_score": 0.7986,
       "selected": false
     },
     {
-      "model_name": "Random Forest Regressor (Final)",
-      "mae": 3.22,
-      "mse": 16.73,
-      "rmse": 4.09,
-      "r2_score": 0.8101,
-      "selected": true
+      "model_name": "Linear Regression",
+      "mae": 4.81,
+      "mse": 36.74,
+      "rmse": 6.06,
+      "r2_score": 0.5835,
+      "selected": false
+    },
+    {
+      "model_name": "KNN Regressor",
+      "mae": 3.87,
+      "mse": 24.49,
+      "rmse": 4.95,
+      "r2_score": 0.7224,
+      "selected": false
     }
   ],
+  "feature_importances": {
+    "Gradient Boosting Regressor": [
+      {
+        "feature": "Delivery_person_Ratings",
+        "importance": 21.24
+      },
+      {
+        "feature": "Road_traffic_density_Low",
+        "importance": 11.91
+      },
+      {
+        "feature": "distance_km",
+        "importance": 11.38
+      },
+      {
+        "feature": "multiple_deliveries",
+        "importance": 10.21
+      },
+      {
+        "feature": "Vehicle_condition",
+        "importance": 9.22
+      },
+      {
+        "feature": "Weather_conditions_Sunny",
+        "importance": 7.03
+      },
+      {
+        "feature": "Delivery_person_Age",
+        "importance": 6.1
+      },
+      {
+        "feature": "Weather_conditions_Fog",
+        "importance": 5.38
+      },
+      {
+        "feature": "Weather_conditions_Cloudy",
+        "importance": 4.24
+      },
+      {
+        "feature": "Delivery_person_Experience",
+        "importance": 4.21
+      },
+      {
+        "feature": "Road_traffic_density_Jam",
+        "importance": 4.03
+      },
+      {
+        "feature": "Festival",
+        "importance": 2.14
+      },
+      {
+        "feature": "Road_traffic_density_Medium",
+        "importance": 1.1
+      },
+      {
+        "feature": "City",
+        "importance": 0.89
+      },
+      {
+        "feature": "Road_traffic_density_High",
+        "importance": 0.28
+      },
+      {
+        "feature": "Weather_conditions_Sandstorms",
+        "importance": 0.21
+      },
+      {
+        "feature": "Weather_conditions_Stormy",
+        "importance": 0.18
+      },
+      {
+        "feature": "Weather_conditions_Windy",
+        "importance": 0.16
+      },
+      {
+        "feature": "Type_of_order_Buffet",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Drinks",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Meal",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Snack",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_bicycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_electric_scooter",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_motorcycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_scooter",
+        "importance": 0.01
+      }
+    ],
+    "Decision Tree Regressor": [
+      {
+        "feature": "Delivery_person_Ratings",
+        "importance": 22.41
+      },
+      {
+        "feature": "multiple_deliveries",
+        "importance": 13.69
+      },
+      {
+        "feature": "Road_traffic_density_Low",
+        "importance": 12.28
+      },
+      {
+        "feature": "distance_km",
+        "importance": 11.22
+      },
+      {
+        "feature": "Weather_conditions_Sunny",
+        "importance": 8.12
+      },
+      {
+        "feature": "Delivery_person_Experience",
+        "importance": 7.99
+      },
+      {
+        "feature": "Vehicle_condition",
+        "importance": 7.83
+      },
+      {
+        "feature": "Weather_conditions_Fog",
+        "importance": 5.15
+      },
+      {
+        "feature": "Weather_conditions_Cloudy",
+        "importance": 4.81
+      },
+      {
+        "feature": "Road_traffic_density_Medium",
+        "importance": 1.8
+      },
+      {
+        "feature": "Delivery_person_Age",
+        "importance": 1.65
+      },
+      {
+        "feature": "Festival",
+        "importance": 1.28
+      },
+      {
+        "feature": "City",
+        "importance": 0.7
+      },
+      {
+        "feature": "Road_traffic_density_Jam",
+        "importance": 0.51
+      },
+      {
+        "feature": "Weather_conditions_Windy",
+        "importance": 0.1
+      },
+      {
+        "feature": "Type_of_order_Drinks",
+        "importance": 0.08
+      },
+      {
+        "feature": "Type_of_order_Meal",
+        "importance": 0.08
+      },
+      {
+        "feature": "Type_of_vehicle_scooter",
+        "importance": 0.06
+      },
+      {
+        "feature": "Weather_conditions_Stormy",
+        "importance": 0.05
+      },
+      {
+        "feature": "Type_of_order_Buffet",
+        "importance": 0.05
+      },
+      {
+        "feature": "Type_of_order_Snack",
+        "importance": 0.05
+      },
+      {
+        "feature": "Weather_conditions_Sandstorms",
+        "importance": 0.03
+      },
+      {
+        "feature": "Type_of_vehicle_motorcycle",
+        "importance": 0.03
+      },
+      {
+        "feature": "Type_of_vehicle_electric_scooter",
+        "importance": 0.02
+      },
+      {
+        "feature": "Road_traffic_density_High",
+        "importance": 0.0
+      },
+      {
+        "feature": "Type_of_vehicle_bicycle",
+        "importance": 0.0
+      }
+    ],
+    "Linear Regression": [
+      {
+        "feature": "Delivery_person_Ratings",
+        "importance": 21.24
+      },
+      {
+        "feature": "Road_traffic_density_Low",
+        "importance": 11.91
+      },
+      {
+        "feature": "distance_km",
+        "importance": 11.38
+      },
+      {
+        "feature": "multiple_deliveries",
+        "importance": 10.21
+      },
+      {
+        "feature": "Vehicle_condition",
+        "importance": 9.22
+      },
+      {
+        "feature": "Weather_conditions_Sunny",
+        "importance": 7.03
+      },
+      {
+        "feature": "Delivery_person_Age",
+        "importance": 6.1
+      },
+      {
+        "feature": "Weather_conditions_Fog",
+        "importance": 5.38
+      },
+      {
+        "feature": "Weather_conditions_Cloudy",
+        "importance": 4.24
+      },
+      {
+        "feature": "Delivery_person_Experience",
+        "importance": 4.21
+      },
+      {
+        "feature": "Road_traffic_density_Jam",
+        "importance": 4.03
+      },
+      {
+        "feature": "Festival",
+        "importance": 2.14
+      },
+      {
+        "feature": "Road_traffic_density_Medium",
+        "importance": 1.1
+      },
+      {
+        "feature": "City",
+        "importance": 0.89
+      },
+      {
+        "feature": "Road_traffic_density_High",
+        "importance": 0.28
+      },
+      {
+        "feature": "Weather_conditions_Sandstorms",
+        "importance": 0.21
+      },
+      {
+        "feature": "Weather_conditions_Stormy",
+        "importance": 0.18
+      },
+      {
+        "feature": "Weather_conditions_Windy",
+        "importance": 0.16
+      },
+      {
+        "feature": "Type_of_order_Buffet",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Drinks",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Meal",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Snack",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_bicycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_electric_scooter",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_motorcycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_scooter",
+        "importance": 0.01
+      }
+    ],
+    "KNN Regressor": [
+      {
+        "feature": "Delivery_person_Ratings",
+        "importance": 21.24
+      },
+      {
+        "feature": "Road_traffic_density_Low",
+        "importance": 11.91
+      },
+      {
+        "feature": "distance_km",
+        "importance": 11.38
+      },
+      {
+        "feature": "multiple_deliveries",
+        "importance": 10.21
+      },
+      {
+        "feature": "Vehicle_condition",
+        "importance": 9.22
+      },
+      {
+        "feature": "Weather_conditions_Sunny",
+        "importance": 7.03
+      },
+      {
+        "feature": "Delivery_person_Age",
+        "importance": 6.1
+      },
+      {
+        "feature": "Weather_conditions_Fog",
+        "importance": 5.38
+      },
+      {
+        "feature": "Weather_conditions_Cloudy",
+        "importance": 4.24
+      },
+      {
+        "feature": "Delivery_person_Experience",
+        "importance": 4.21
+      },
+      {
+        "feature": "Road_traffic_density_Jam",
+        "importance": 4.03
+      },
+      {
+        "feature": "Festival",
+        "importance": 2.14
+      },
+      {
+        "feature": "Road_traffic_density_Medium",
+        "importance": 1.1
+      },
+      {
+        "feature": "City",
+        "importance": 0.89
+      },
+      {
+        "feature": "Road_traffic_density_High",
+        "importance": 0.28
+      },
+      {
+        "feature": "Weather_conditions_Sandstorms",
+        "importance": 0.21
+      },
+      {
+        "feature": "Weather_conditions_Stormy",
+        "importance": 0.18
+      },
+      {
+        "feature": "Weather_conditions_Windy",
+        "importance": 0.16
+      },
+      {
+        "feature": "Type_of_order_Buffet",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Drinks",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Meal",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_order_Snack",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_bicycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_electric_scooter",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_motorcycle",
+        "importance": 0.01
+      },
+      {
+        "feature": "Type_of_vehicle_scooter",
+        "importance": 0.01
+      }
+    ]
+  },
   "eda_charts": {
     "delivery_time_distribution": [
       {
@@ -126,176 +581,6 @@
       {
         "distance_range": "15+ km",
         "avg_time": 29.84
-      }
-    ],
-    "rating_vs_time": [
-      {
-        "rating_range": "2.0 - 3.5",
-        "avg_time": 36.62
-      },
-      {
-        "rating_range": "3.5 - 4.0",
-        "avg_time": 37.25
-      },
-      {
-        "rating_range": "4.0 - 4.5",
-        "avg_time": 34.65
-      },
-      {
-        "rating_range": "4.5 - 5.0",
-        "avg_time": 24.31
-      }
-    ],
-    "actual_vs_predicted": [
-      {
-        "id": 1,
-        "actual": 46.0,
-        "predicted": 45.8
-      },
-      {
-        "id": 2,
-        "actual": 23.0,
-        "predicted": 21.1
-      },
-      {
-        "id": 3,
-        "actual": 21.0,
-        "predicted": 22.4
-      },
-      {
-        "id": 4,
-        "actual": 20.0,
-        "predicted": 22.4
-      },
-      {
-        "id": 5,
-        "actual": 41.0,
-        "predicted": 34.6
-      },
-      {
-        "id": 6,
-        "actual": 20.0,
-        "predicted": 20.6
-      },
-      {
-        "id": 7,
-        "actual": 33.0,
-        "predicted": 33.0
-      },
-      {
-        "id": 8,
-        "actual": 40.0,
-        "predicted": 37.2
-      },
-      {
-        "id": 9,
-        "actual": 41.0,
-        "predicted": 44.4
-      },
-      {
-        "id": 10,
-        "actual": 15.0,
-        "predicted": 17.4
-      },
-      {
-        "id": 11,
-        "actual": 36.0,
-        "predicted": 36.0
-      },
-      {
-        "id": 12,
-        "actual": 26.0,
-        "predicted": 22.1
-      },
-      {
-        "id": 13,
-        "actual": 20.0,
-        "predicted": 21.8
-      },
-      {
-        "id": 14,
-        "actual": 39.0,
-        "predicted": 37.7
-      },
-      {
-        "id": 15,
-        "actual": 34.0,
-        "predicted": 33.5
-      },
-      {
-        "id": 16,
-        "actual": 15.0,
-        "predicted": 14.9
-      },
-      {
-        "id": 17,
-        "actual": 18.0,
-        "predicted": 21.8
-      },
-      {
-        "id": 18,
-        "actual": 38.0,
-        "predicted": 36.7
-      },
-      {
-        "id": 19,
-        "actual": 47.0,
-        "predicted": 46.3
-      },
-      {
-        "id": 20,
-        "actual": 12.0,
-        "predicted": 13.5
-      },
-      {
-        "id": 21,
-        "actual": 26.0,
-        "predicted": 25.4
-      },
-      {
-        "id": 22,
-        "actual": 22.0,
-        "predicted": 25.3
-      },
-      {
-        "id": 23,
-        "actual": 21.0,
-        "predicted": 21.1
-      },
-      {
-        "id": 24,
-        "actual": 25.0,
-        "predicted": 33.3
-      },
-      {
-        "id": 25,
-        "actual": 35.0,
-        "predicted": 36.0
-      },
-      {
-        "id": 26,
-        "actual": 30.0,
-        "predicted": 29.1
-      },
-      {
-        "id": 27,
-        "actual": 22.0,
-        "predicted": 22.7
-      },
-      {
-        "id": 28,
-        "actual": 10.0,
-        "predicted": 12.7
-      },
-      {
-        "id": 29,
-        "actual": 19.0,
-        "predicted": 17.6
-      },
-      {
-        "id": 30,
-        "actual": 11.0,
-        "predicted": 12.2
       }
     ]
   }

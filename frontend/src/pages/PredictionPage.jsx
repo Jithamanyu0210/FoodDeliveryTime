@@ -4,7 +4,7 @@ import DeliveryForm from '../components/DeliveryForm';
 import PredictionCard from '../components/PredictionCard';
 import { Calculator } from 'lucide-react';
 
-export default function PredictionPage({ API_BASE_URL }) {
+export default function PredictionPage({ API_BASE_URL, availableModels, onRecordPrediction }) {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -34,6 +34,22 @@ export default function PredictionPage({ API_BASE_URL }) {
       const response = await axios.post(`${API_BASE_URL}/api/predict`, formData);
       if (response.data && response.data.success) {
         setPrediction(response.data);
+        if (onRecordPrediction) {
+          onRecordPrediction({
+            selected_model: response.data.selected_model,
+            predicted_time_min: response.data.predicted_time_min,
+            distance_km: response.data.distance_km,
+            weather: formData.Weather_conditions,
+            traffic: formData.Road_traffic_density,
+            rating: formData.Delivery_person_Ratings,
+            age: formData.Delivery_person_Age,
+            exp: formData.Delivery_person_Experience,
+            vehicle: formData.Type_of_vehicle,
+            order_type: formData.Type_of_order,
+            multiple_deliveries: formData.multiple_deliveries,
+            city: formData.City
+          });
+        }
       } else {
         setError(response.data.error || 'Failed to generate prediction');
       }
@@ -42,6 +58,22 @@ export default function PredictionPage({ API_BASE_URL }) {
         const directRes = await axios.post('http://127.0.0.1:5000/api/predict', formData);
         if (directRes.data && directRes.data.success) {
           setPrediction(directRes.data);
+          if (onRecordPrediction) {
+            onRecordPrediction({
+              selected_model: directRes.data.selected_model,
+              predicted_time_min: directRes.data.predicted_time_min,
+              distance_km: directRes.data.distance_km,
+              weather: formData.Weather_conditions,
+              traffic: formData.Road_traffic_density,
+              rating: formData.Delivery_person_Ratings,
+              age: formData.Delivery_person_Age,
+              exp: formData.Delivery_person_Experience,
+              vehicle: formData.Type_of_vehicle,
+              order_type: formData.Type_of_order,
+              multiple_deliveries: formData.multiple_deliveries,
+              city: formData.City
+            });
+          }
         } else {
           setError(directRes.data.error || 'API Error');
         }
@@ -66,17 +98,22 @@ export default function PredictionPage({ API_BASE_URL }) {
           Food Delivery Time Prediction
         </h1>
         <p className="text-xs text-slate-400 mt-1">
-          Select order environmental parameters and click Predict to perform real-time model inference.
+          Select model algorithm, enter restaurant & customer coordinates to auto-calculate distance, then click Predict.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form */}
         <div className="lg:col-span-7">
-          <DeliveryForm onSubmit={handlePredict} loading={loading} onClear={handleClear} />
+          <DeliveryForm 
+            onSubmit={handlePredict} 
+            loading={loading} 
+            onClear={handleClear} 
+            availableModels={availableModels} 
+          />
         </div>
 
-        {/* Right Column: Prediction Result */}
+        {/* Right Column: Prediction Result & Explanation */}
         <div className="lg:col-span-5">
           <PredictionCard prediction={prediction} error={error} />
         </div>

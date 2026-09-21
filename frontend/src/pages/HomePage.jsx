@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Clock, ShieldCheck, Cpu, Zap, BarChart2, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, Cpu, Zap, BarChart2 } from 'lucide-react';
 
 export default function HomePage({ onNavigateToPredict }) {
   return (
@@ -10,13 +10,13 @@ export default function HomePage({ onNavigateToPredict }) {
         <div className="max-w-3xl space-y-6 relative z-10">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold">
             <Zap className="w-3.5 h-3.5" />
-            <span>Machine Learning Powered Logistics</span>
+            <span>Machine Learning Logistics Engine</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Food Delivery Time <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">Prediction System</span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            An end-to-end Machine Learning web application trained on <b>45,584 real-world Zomato delivery operational records</b> to accurately estimate order arrival times based on traffic density, weather, courier rating, and delivery distance.
+            An end-to-end Machine Learning application that predicts food delivery duration in minutes based on real-world delivery distance, road traffic density, weather conditions, courier rating, and order parameters.
           </p>
           
           <div className="flex flex-wrap gap-4 pt-2">
@@ -24,7 +24,7 @@ export default function HomePage({ onNavigateToPredict }) {
               onClick={onNavigateToPredict}
               className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3.5 px-7 rounded-xl shadow-lg transition flex items-center space-x-2 text-sm"
             >
-              <span>Test Live ML Prediction</span>
+              <span>Test Live Prediction</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -77,32 +77,32 @@ export default function HomePage({ onNavigateToPredict }) {
       <div className="bg-slate-800/40 rounded-2xl border border-slate-700/60 p-8 space-y-6">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Cpu className="w-5 h-5 text-orange-400" />
-          How The ML System Works
+          How The System Works
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-xs">1</span>
-            <h4 className="font-bold text-white text-sm">Data Ingestion</h4>
-            <p className="text-slate-400">Processes order inputs: courier rating, age, distance (km), traffic, weather, city, and vehicle condition.</p>
+            <h4 className="font-bold text-white text-sm">Coordinates & Form Input</h4>
+            <p className="text-slate-400">Processes order inputs: courier rating, age, experience, traffic, weather, city, vehicle type, and coordinates.</p>
           </div>
 
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xs">2</span>
-            <h4 className="font-bold text-white text-sm">Feature Pipeline</h4>
-            <p className="text-slate-400">Applies Standard Scaling to numerical features and One-Hot Encoding to categorical environmental variables.</p>
+            <h4 className="font-bold text-white text-sm">Auto-Distance Calculation</h4>
+            <p className="text-slate-400">Uses the Haversine formula to compute great-circle distance in km between restaurant and delivery location.</p>
           </div>
 
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">3</span>
-            <h4 className="font-bold text-white text-sm">Model Inference</h4>
-            <p className="text-slate-400">Passes features through a trained Random Forest Regressor trained on 45,584 Kaggle Zomato records.</p>
+            <h4 className="font-bold text-white text-sm">Multi-Model Selection</h4>
+            <p className="text-slate-400">Runs inference through your selected regression model (Gradient Boosting, Decision Tree, Linear Regression, KNN).</p>
           </div>
 
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">4</span>
-            <h4 className="font-bold text-white text-sm">Real-Time Response</h4>
-            <p className="text-slate-400">Returns estimated delivery duration in minutes along with error margin and input breakdown.</p>
+            <h4 className="font-bold text-white text-sm">Prediction & Explanation</h4>
+            <p className="text-slate-400">Returns estimated time in minutes, logs to history, and presents a feature impact breakdown.</p>
           </div>
         </div>
       </div>
