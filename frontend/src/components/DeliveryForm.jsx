@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, User, CloudSun, Navigation, ShieldAlert, Send, RotateCcw, Cpu, Calculator, AlertCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, User, CloudSun, ShieldAlert, Send, RotateCcw, Navigation } from 'lucide-react';
 
 const INITIAL_FORM_STATE = {
   model_name: 'Gradient Boosting Regressor',
-  Restaurant_latitude: 30.327968,
-  Restaurant_longitude: 78.046106,
-  Delivery_location_latitude: 30.397968,
-  Delivery_location_longitude: 78.116106,
-  distance_km: 10.28,
+  distance_km: 8.5,
   Delivery_person_Age: 28,
   Delivery_person_Experience: 3.5,
   Delivery_person_Ratings: 4.8,
@@ -21,49 +17,8 @@ const INITIAL_FORM_STATE = {
   City: 'Metropolitian'
 };
 
-// Haversine distance calculator helper
-const calcHaversine = (lat1, lon1, lat2, lon2) => {
-  if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) return null;
-  if (lat1 < -90 || lat1 > 90 || lat2 < -90 || lat2 > 90) return null;
-  if (lon1 < -180 || lon1 > 180 || lon2 < -180 || lon2 > 180) return null;
-
-  const toRad = (val) => (val * Math.PI) / 180;
-  const R = 6371; // Earth radius in km
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c;
-  return d <= 0 ? null : Math.round(d * 100) / 100;
-};
-
-export default function DeliveryForm({ onSubmit, loading, onClear, availableModels }) {
+export default function DeliveryForm({ onSubmit, loading, onClear }) {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  const [coordError, setCoordError] = useState(null);
-
-  // Auto-calculate distance when coordinates change
-  useEffect(() => {
-    const dist = calcHaversine(
-      parseFloat(formData.Restaurant_latitude),
-      parseFloat(formData.Restaurant_longitude),
-      parseFloat(formData.Delivery_location_latitude),
-      parseFloat(formData.Delivery_location_longitude)
-    );
-
-    if (dist !== null) {
-      setFormData(prev => ({ ...prev, distance_km: dist }));
-      setCoordError(null);
-    } else {
-      setCoordError("Invalid coordinates! Latitudes must be -90 to 90 and Longitudes -180 to 180.");
-    }
-  }, [
-    formData.Restaurant_latitude,
-    formData.Restaurant_longitude,
-    formData.Delivery_location_latitude,
-    formData.Delivery_location_longitude
-  ]);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -75,105 +30,55 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
 
   const handleReset = () => {
     setFormData(INITIAL_FORM_STATE);
-    setCoordError(null);
     if (onClear) onClear();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (coordError) return;
     onSubmit(formData);
   };
-
-  const modelsList = availableModels || [
-    { model_name: 'Gradient Boosting Regressor', r2_score: 0.8055, rmse: 4.14 },
-    { model_name: 'Decision Tree Regressor', r2_score: 0.7986, rmse: 4.21 },
-    { model_name: 'KNN Regressor', r2_score: 0.7224, rmse: 4.95 },
-    { model_name: 'Linear Regression', r2_score: 0.5835, rmse: 6.06 }
-  ];
 
   return (
     <form onSubmit={handleSubmit} className="bg-slate-800/90 rounded-2xl p-6 border border-slate-700/70 shadow-xl space-y-6">
 
-      {/* Automatic Distance Calculator via Coordinates (Requirement #4) */}
+      {/* Distance between Restaurant and Home */}
       <div className="space-y-3 bg-slate-900/40 p-4 rounded-xl border border-slate-700/50">
         <h3 className="text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
-          <MapPin className="w-3.5 h-3.5" />
-          Automatic Distance Calculation (Haversine Formula)
+          <Navigation className="w-3.5 h-3.5" />
+          Distance between Restaurant and Home
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Restaurant Lat & Lon</label>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                step="0.000001"
-                name="Restaurant_latitude"
-                value={formData.Restaurant_latitude}
-                onChange={handleChange}
-                placeholder="Lat"
-                className="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
-                required
-              />
-              <input
-                type="number"
-                step="0.000001"
-                name="Restaurant_longitude"
-                value={formData.Restaurant_longitude}
-                onChange={handleChange}
-                placeholder="Lon"
-                className="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
-                required
-              />
+        <div>
+          <label className="block text-xs font-medium text-slate-300 mb-1.5">
+            Delivery Distance (in Kilometers)
+          </label>
+          <div className="relative">
+            <input
+              type="number"
+              step="0.1"
+              min="0.1"
+              max="100"
+              name="distance_km"
+              value={formData.distance_km}
+              onChange={handleChange}
+              placeholder="e.g. 8.5"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500 transition pl-10"
+              required
+            />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <MapPin className="w-4 h-4 text-orange-400" />
+            </div>
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-xs font-semibold text-slate-400 bg-slate-800/80 px-2.5 my-1 mr-1 rounded-md border border-slate-700/50">
+              km
             </div>
           </div>
-
-          <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Delivery Location Lat & Lon</label>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                step="0.000001"
-                name="Delivery_location_latitude"
-                value={formData.Delivery_location_latitude}
-                onChange={handleChange}
-                placeholder="Lat"
-                className="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
-                required
-              />
-              <input
-                type="number"
-                step="0.000001"
-                name="Delivery_location_longitude"
-                value={formData.Delivery_location_longitude}
-                onChange={handleChange}
-                placeholder="Lon"
-                className="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {coordError && (
-          <div className="text-xs text-rose-400 flex items-center gap-1.5 pt-1">
-            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-            <span>{coordError}</span>
-          </div>
-        )}
-
-        {/* Calculated Distance Output Badge */}
-        <div className="flex items-center justify-between bg-slate-900 px-3 py-2 rounded-lg border border-slate-700/60 mt-2">
-          <span className="text-xs text-slate-400 font-medium">Auto-Calculated Geodesic Distance:</span>
-          <span className="text-sm font-bold text-sky-400 flex items-center gap-1">
-            <Calculator className="w-4 h-4" />
-            {formData.distance_km ? `${formData.distance_km} km` : 'Calculating...'}
-          </span>
+          <p className="text-[11px] text-slate-400 mt-1.5">
+            Enter the direct road travel distance in km between the food restaurant and delivery address.
+          </p>
         </div>
       </div>
 
-      {/* Grid Section 3: Courier Details */}
+      {/* Grid Section 2: Courier Details */}
       <div className="space-y-3">
         <h3 className="text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
           <User className="w-3.5 h-3.5" />
@@ -224,7 +129,7 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
         </div>
       </div>
 
-      {/* Grid Section 4: Weather & Traffic Conditions */}
+      {/* Grid Section 3: Weather & Traffic Conditions */}
       <div className="space-y-3">
         <h3 className="text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
           <CloudSun className="w-3.5 h-3.5" />
@@ -277,7 +182,7 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
         </div>
       </div>
 
-      {/* Grid Section 5: Vehicle & Order Details */}
+      {/* Grid Section 4: Vehicle & Order Details */}
       <div className="space-y-3">
         <h3 className="text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
           <ShieldAlert className="w-3.5 h-3.5" />
@@ -362,7 +267,7 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
       <div className="flex items-center space-x-3 pt-2">
         <button
           type="submit"
-          disabled={loading || coordError !== null}
+          disabled={loading}
           className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 disabled:opacity-50"
         >
           {loading ? (

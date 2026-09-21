@@ -18,9 +18,9 @@ A full-stack Machine Learning web application designed to predict food delivery 
 
 ## 🌟 Key Application Features
 
-1. **Automatic Distance Calculation (Haversine Formula)**:
-   - Accepts Restaurant Lat/Lon and Delivery Location Lat/Lon.
-   - Automatically computes great-circle distance in kilometers (`distance_km`) with real-time coordinate validation.
+1. **Direct Delivery Distance Parameter**:
+   - Accepts real-world delivery distance between the restaurant and customer home in kilometers (`distance_km`).
+   - Supports direct distance input with real-time numeric validation.
 
 2. **Machine Learning Model Inference**:
    - Powered by a trained **Gradient Boosting Regressor** pipeline (100 estimators, learning rate = 0.1).
@@ -103,7 +103,7 @@ foodpredict/
         ├── App.jsx                  # Navigation state manager
         ├── components/
         │   ├── Header.jsx           # Clean header navigation bar
-        │   ├── DeliveryForm.jsx     # Auto-Haversine distance calculator & inputs
+        │   ├── DeliveryForm.jsx     # Distance between restaurant & home + order input form
         │   └── PredictionCard.jsx   # Results card displaying time, RMSE, R², MAE & explanations
         └── pages/
             ├── HomePage.jsx         # Hero landing page

@@ -83,14 +83,14 @@ export default function HomePage({ onNavigateToPredict }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-xs">1</span>
-            <h4 className="font-bold text-white text-sm">Coordinates & Form Input</h4>
-            <p className="text-slate-400">Processes order inputs: courier rating, age, experience, traffic, weather, city, vehicle type, and coordinates.</p>
+            <h4 className="font-bold text-white text-sm">Delivery Distance Input</h4>
+            <p className="text-slate-400">Specify the distance in kilometers between the restaurant and the delivery home address.</p>
           </div>
 
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">
             <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xs">2</span>
-            <h4 className="font-bold text-white text-sm">Auto-Distance Calculation</h4>
-            <p className="text-slate-400">Uses the Haversine formula to compute great-circle distance in km between restaurant and delivery location.</p>
+            <h4 className="font-bold text-white text-sm">Courier & Environment</h4>
+            <p className="text-slate-400">Configure courier rating, age, experience, road traffic density, weather, and order details.</p>
           </div>
 
           <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700/50 space-y-2">

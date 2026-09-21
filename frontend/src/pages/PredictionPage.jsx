@@ -98,7 +98,7 @@ export default function PredictionPage({ API_BASE_URL, availableModels, onRecord
           Food Delivery Time Prediction
         </h1>
         <p className="text-xs text-slate-400 mt-1">
-          Enter restaurant & customer coordinates to auto-calculate distance, specify environmental factors, then click Predict.
+          Enter delivery distance between restaurant & home, specify environmental factors, then click Predict.
         </p>
       </div>
 
