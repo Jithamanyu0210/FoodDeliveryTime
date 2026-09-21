@@ -95,29 +95,6 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
   return (
     <form onSubmit={handleSubmit} className="bg-slate-800/90 rounded-2xl p-6 border border-slate-700/70 shadow-xl space-y-6">
 
-      {/* Model Selection Dropdown (Requirement #2) */}
-      <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 space-y-2">
-        <label className="block text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
-          <Cpu className="w-4 h-4" />
-          Select Machine Learning Regression Model
-        </label>
-        <select
-          name="model_name"
-          value={formData.model_name}
-          onChange={handleChange}
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-orange-500"
-        >
-          {modelsList.map((m, idx) => (
-            <option key={idx} value={m.model_name}>
-              {m.model_name} (R²: {(m.r2_score * 100).toFixed(1)}% | RMSE: {m.rmse}m)
-            </option>
-          ))}
-        </select>
-        <p className="text-[11px] text-slate-400">
-          Choose between available trained models. Selected: <b>{formData.model_name}</b>
-        </p>
-      </div>
-
       {/* Automatic Distance Calculator via Coordinates (Requirement #4) */}
       <div className="space-y-3 bg-slate-900/40 p-4 rounded-xl border border-slate-700/50">
         <h3 className="text-xs font-semibold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
