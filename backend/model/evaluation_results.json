@@ -1,0 +1,302 @@
+{
+  "dataset_summary": {
+    "total_records": 45584,
+    "total_features": 12,
+    "target_variable": "Time_taken (min)",
+    "avg_delivery_time_min": 26.29,
+    "min_time_min": 10.0,
+    "max_time_min": 54.0
+  },
+  "model_comparison": [
+    {
+      "model_name": "Linear Regression (Baseline)",
+      "mae": 4.82,
+      "mse": 36.84,
+      "rmse": 6.07,
+      "r2_score": 0.5828,
+      "selected": false
+    },
+    {
+      "model_name": "Random Forest Regressor (Final)",
+      "mae": 3.22,
+      "mse": 16.73,
+      "rmse": 4.09,
+      "r2_score": 0.8101,
+      "selected": true
+    }
+  ],
+  "eda_charts": {
+    "delivery_time_distribution": [
+      {
+        "range": "10-20 min",
+        "count": 12509
+      },
+      {
+        "range": "20-30 min",
+        "count": 18256
+      },
+      {
+        "range": "30-40 min",
+        "count": 10228
+      },
+      {
+        "range": "40-50 min",
+        "count": 4155
+      },
+      {
+        "range": "50-60 min",
+        "count": 436
+      }
+    ],
+    "traffic_vs_time": [
+      {
+        "traffic": "High",
+        "avg_time": 27.24
+      },
+      {
+        "traffic": "Jam",
+        "avg_time": 31.18
+      },
+      {
+        "traffic": "Low",
+        "avg_time": 21.27
+      },
+      {
+        "traffic": "Medium",
+        "avg_time": 26.7
+      }
+    ],
+    "weather_vs_time": [
+      {
+        "weather": "Cloudy",
+        "avg_time": 28.92
+      },
+      {
+        "weather": "Fog",
+        "avg_time": 28.91
+      },
+      {
+        "weather": "Sandstorms",
+        "avg_time": 25.88
+      },
+      {
+        "weather": "Stormy",
+        "avg_time": 25.87
+      },
+      {
+        "weather": "Sunny",
+        "avg_time": 21.86
+      },
+      {
+        "weather": "Windy",
+        "avg_time": 26.12
+      }
+    ],
+    "vehicle_vs_time": [
+      {
+        "vehicle": "bicycle",
+        "avg_time": 26.43
+      },
+      {
+        "vehicle": "electric_scooter",
+        "avg_time": 24.47
+      },
+      {
+        "vehicle": "motorcycle",
+        "avg_time": 27.61
+      },
+      {
+        "vehicle": "scooter",
+        "avg_time": 24.48
+      }
+    ],
+    "distance_vs_time": [
+      {
+        "distance_range": "0-5 km",
+        "avg_time": 22.14
+      },
+      {
+        "distance_range": "5-10 km",
+        "avg_time": 24.37
+      },
+      {
+        "distance_range": "10-15 km",
+        "avg_time": 29.87
+      },
+      {
+        "distance_range": "15+ km",
+        "avg_time": 29.84
+      }
+    ],
+    "rating_vs_time": [
+      {
+        "rating_range": "2.0 - 3.5",
+        "avg_time": 36.62
+      },
+      {
+        "rating_range": "3.5 - 4.0",
+        "avg_time": 37.25
+      },
+      {
+        "rating_range": "4.0 - 4.5",
+        "avg_time": 34.65
+      },
+      {
+        "rating_range": "4.5 - 5.0",
+        "avg_time": 24.31
+      }
+    ],
+    "actual_vs_predicted": [
+      {
+        "id": 1,
+        "actual": 46.0,
+        "predicted": 45.8
+      },
+      {
+        "id": 2,
+        "actual": 23.0,
+        "predicted": 21.1
+      },
+      {
+        "id": 3,
+        "actual": 21.0,
+        "predicted": 22.4
+      },
+      {
+        "id": 4,
+        "actual": 20.0,
+        "predicted": 22.4
+      },
+      {
+        "id": 5,
+        "actual": 41.0,
+        "predicted": 34.6
+      },
+      {
+        "id": 6,
+        "actual": 20.0,
+        "predicted": 20.6
+      },
+      {
+        "id": 7,
+        "actual": 33.0,
+        "predicted": 33.0
+      },
+      {
+        "id": 8,
+        "actual": 40.0,
+        "predicted": 37.2
+      },
+      {
+        "id": 9,
+        "actual": 41.0,
+        "predicted": 44.4
+      },
+      {
+        "id": 10,
+        "actual": 15.0,
+        "predicted": 17.4
+      },
+      {
+        "id": 11,
+        "actual": 36.0,
+        "predicted": 36.0
+      },
+      {
+        "id": 12,
+        "actual": 26.0,
+        "predicted": 22.1
+      },
+      {
+        "id": 13,
+        "actual": 20.0,
+        "predicted": 21.8
+      },
+      {
+        "id": 14,
+        "actual": 39.0,
+        "predicted": 37.7
+      },
+      {
+        "id": 15,
+        "actual": 34.0,
+        "predicted": 33.5
+      },
+      {
+        "id": 16,
+        "actual": 15.0,
+        "predicted": 14.9
+      },
+      {
+        "id": 17,
+        "actual": 18.0,
+        "predicted": 21.8
+      },
+      {
+        "id": 18,
+        "actual": 38.0,
+        "predicted": 36.7
+      },
+      {
+        "id": 19,
+        "actual": 47.0,
+        "predicted": 46.3
+      },
+      {
+        "id": 20,
+        "actual": 12.0,
+        "predicted": 13.5
+      },
+      {
+        "id": 21,
+        "actual": 26.0,
+        "predicted": 25.4
+      },
+      {
+        "id": 22,
+        "actual": 22.0,
+        "predicted": 25.3
+      },
+      {
+        "id": 23,
+        "actual": 21.0,
+        "predicted": 21.1
+      },
+      {
+        "id": 24,
+        "actual": 25.0,
+        "predicted": 33.3
+      },
+      {
+        "id": 25,
+        "actual": 35.0,
+        "predicted": 36.0
+      },
+      {
+        "id": 26,
+        "actual": 30.0,
+        "predicted": 29.1
+      },
+      {
+        "id": 27,
+        "actual": 22.0,
+        "predicted": 22.7
+      },
+      {
+        "id": 28,
+        "actual": 10.0,
+        "predicted": 12.7
+      },
+      {
+        "id": 29,
+        "actual": 19.0,
+        "predicted": 17.6
+      },
+      {
+        "id": 30,
+        "actual": 11.0,
+        "predicted": 12.2
+      }
+    ]
+  }
+}

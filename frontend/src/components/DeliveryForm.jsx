@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
-import { MapPin, User, CloudSun, Navigation, ShieldAlert, Send, Briefcase } from 'lucide-react';
+import { MapPin, User, CloudSun, Navigation, ShieldAlert, Send, RotateCcw } from 'lucide-react';
 
-export default function DeliveryForm({ onSubmit, loading }) {
-  const [formData, setFormData] = useState({
-    Delivery_person_Age: 28,
-    Delivery_person_Experience: 3.5,
-    Delivery_person_Ratings: 4.8,
-    distance_km: 5.2,
-    Weather_conditions: 'Sunny',
-    Road_traffic_density: 'Medium',
-    Vehicle_condition: 2,
-    Type_of_order: 'Meal',
-    Type_of_vehicle: 'motorcycle',
-    multiple_deliveries: 1.0,
-    Festival: 'No',
-    City: 'Metropolitian'
-  });
+const INITIAL_FORM_STATE = {
+  Delivery_person_Age: 28,
+  Delivery_person_Experience: 3.5,
+  Delivery_person_Ratings: 4.8,
+  distance_km: 5.2,
+  Weather_conditions: 'Sunny',
+  Road_traffic_density: 'Medium',
+  Vehicle_condition: 2,
+  Type_of_order: 'Meal',
+  Type_of_vehicle: 'motorcycle',
+  multiple_deliveries: 1.0,
+  Festival: 'No',
+  City: 'Metropolitian'
+};
+
+export default function DeliveryForm({ onSubmit, loading, onClear }) {
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'number' ? parseFloat(value) : value
+      [name]: type === 'number' ? (value === '' ? '' : parseFloat(value)) : value
     }));
+  };
+
+  const handleReset = () => {
+    setFormData(INITIAL_FORM_STATE);
+    if (onClear) onClear();
   };
 
   const handleSubmit = (e) => {
@@ -48,7 +55,7 @@ export default function DeliveryForm({ onSubmit, loading }) {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Age (Years)</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1.5">Age (18-60 yrs)</label>
             <input
               type="number"
               name="Delivery_person_Age"
@@ -61,7 +68,7 @@ export default function DeliveryForm({ onSubmit, loading }) {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Experience (Years)</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1.5">Experience (0-25 yrs)</label>
             <input
               type="number"
               step="0.5"
@@ -76,7 +83,7 @@ export default function DeliveryForm({ onSubmit, loading }) {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Rating (1.0 - 5.0)</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1.5">Rating (1.0-5.0)</label>
             <input
               type="number"
               step="0.1"
@@ -99,7 +106,7 @@ export default function DeliveryForm({ onSubmit, loading }) {
           Delivery Distance
         </h3>
         <div>
-          <label className="block text-xs font-medium text-slate-300 mb-1.5">Restaurant to Customer Distance (km)</label>
+          <label className="block text-xs font-medium text-slate-300 mb-1.5">Distance (0.1 - 100 km)</label>
           <div className="relative">
             <input
               type="number"
@@ -252,26 +259,40 @@ export default function DeliveryForm({ onSubmit, loading }) {
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 disabled:opacity-50"
-      >
-        {loading ? (
-          <>
-            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>Calculating ML Prediction...</span>
-          </>
-        ) : (
-          <>
-            <Send className="w-5 h-5" />
-            <span>Predict Delivery Time</span>
-          </>
-        )}
-      </button>
+      {/* Action Buttons: Predict & Clear Form */}
+      <div className="flex items-center space-x-3 pt-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 disabled:opacity-50"
+        >
+          {loading ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Calculating ML Prediction...</span>
+            </>
+          ) : (
+            <>
+              <Send className="w-5 h-5" />
+              <span>Predict Delivery Time</span>
+            </>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={loading}
+          className="bg-slate-700/80 hover:bg-slate-700 text-slate-300 font-medium py-3 px-4 rounded-xl border border-slate-600/50 transition flex items-center space-x-1.5 text-sm"
+          title="Clear Form to Default Settings"
+        >
+          <RotateCcw className="w-4 h-4" />
+          <span>Clear</span>
+        </button>
+      </div>
     </form>
   );
 }

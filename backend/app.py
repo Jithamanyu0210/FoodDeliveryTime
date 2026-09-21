@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 # Ensure site-packages and local packages are in path
 site_pkg = r'C:\Users\ADMIN\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages'
@@ -18,6 +19,8 @@ app = Flask(__name__)
 CORS(app)
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model', 'delivery_model.joblib')
+RESULTS_PATH = os.path.join(os.path.dirname(__file__), 'model', 'evaluation_results.json')
+
 model_pipeline = None
 
 def load_model():
@@ -40,6 +43,28 @@ def health_check():
         'model_loaded': model_pipeline is not None
     }), 200
 
+@app.route('/api/stats', methods=['GET'])
+def get_stats():
+    if os.path.exists(RESULTS_PATH):
+        try:
+            with open(RESULTS_PATH, 'r') as f:
+                data = json.load(f)
+            return jsonify(data.get('dataset_summary', {})), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    return jsonify({'error': 'Evaluation stats not available'}), 444
+
+@app.route('/api/insights', methods=['GET'])
+def get_insights():
+    if os.path.exists(RESULTS_PATH):
+        try:
+            with open(RESULTS_PATH, 'r') as f:
+                data = json.load(f)
+            return jsonify(data), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    return jsonify({'error': 'Insights data not available'}), 444
+
 @app.route('/api/predict', methods=['POST'])
 def predict_delivery_time():
     global model_pipeline
@@ -55,14 +80,13 @@ def predict_delivery_time():
         if not data:
             return jsonify({'error': 'No input data provided'}), 400
 
-        # Transform raw input to feature dataframe & compute Haversine distance
+        # Transform raw input to feature dataframe
         X_input, distance_km = prepare_input_features(data)
 
         # Make prediction
         prediction = model_pipeline.predict(X_input)
         predicted_min = float(np.round(prediction[0], 1))
 
-        # Format clean response
         response = {
             'success': True,
             'predicted_time_min': predicted_min,
