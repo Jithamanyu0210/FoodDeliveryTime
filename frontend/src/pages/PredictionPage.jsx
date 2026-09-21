@@ -78,7 +78,11 @@ export default function PredictionPage({ API_BASE_URL, availableModels, onRecord
           setError(directRes.data.error || 'API Error');
         }
       } catch (e) {
-        setError(err.response?.data?.error || err.message || 'Cannot reach Flask backend server. Ensure backend is running.');
+        if (err.response?.status === 405 || err.response?.status === 404) {
+          setError("Flask Backend API is not running on this static hosting server. Please deploy the backend on Render (or add your Render backend URL to Vercel Environment Variables as VITE_API_URL).");
+        } else {
+          setError(err.response?.data?.error || err.message || 'Cannot reach Flask backend server. Ensure backend is running.');
+        }
       }
     } finally {
       setLoading(false);
