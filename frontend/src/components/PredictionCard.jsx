@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Navigation, CheckCircle2, AlertCircle, Sparkles, BarChart2, Info, Cpu } from 'lucide-react';
+import { Clock, Navigation, CheckCircle2, AlertCircle, Sparkles, BarChart2, Cpu, HelpCircle, Award, Layers } from 'lucide-react';
 
 export default function PredictionCard({ prediction, error }) {
   if (error) {
@@ -22,13 +22,17 @@ export default function PredictionCard({ prediction, error }) {
         </div>
         <h3 className="text-base font-semibold text-white">No Prediction Generated</h3>
         <p className="text-xs text-slate-400 max-w-xs mt-1">
-          Select your model, fill in the coordinates and order parameters, then click <b>Predict Delivery Time</b> to view the ML prediction & factor explanation.
+          Select your model, enter coordinates, then click <b>Predict Delivery Time</b> to view the ML prediction & evaluation metrics.
         </p>
       </div>
     );
   }
 
-  const { predicted_time_min, distance_km, selected_model, inputs_summary, feature_importances, explanation_text } = prediction;
+  const { predicted_time_min, distance_km, selected_model, metrics, inputs_summary, feature_importances, explanation_text } = prediction;
+
+  const rmseVal = metrics?.rmse ?? 'Metrics not available';
+  const r2Val = metrics?.r2_score !== undefined ? `${(metrics.r2_score * 100).toFixed(2)}%` : 'Metrics not available';
+  const maeVal = metrics?.mae ?? 'Metrics not available';
 
   const getTrafficColor = (traffic) => {
     switch (traffic) {
@@ -54,18 +58,72 @@ export default function PredictionCard({ prediction, error }) {
         </span>
       </div>
 
-      {/* Main Time display */}
-      <div className="text-center py-5 bg-slate-900/70 rounded-xl border border-slate-700/60">
+      {/* 1. PREDICTED DELIVERY TIME (Prominent Display) */}
+      <div className="text-center py-5 bg-slate-900/80 rounded-xl border border-slate-700/60 shadow-inner">
         <div className="flex items-center justify-center space-x-2 text-slate-400 text-xs font-medium mb-1">
           <Clock className="w-4 h-4 text-orange-400" />
-          <span>ESTIMATED DELIVERY TIME</span>
+          <span>PREDICTED DELIVERY TIME</span>
         </div>
         <div className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">
           {predicted_time_min} <span className="text-2xl font-bold text-slate-300">mins</span>
         </div>
-        <p className="text-[11px] text-slate-400 mt-2">
-          Note: This result is an automated machine learning estimation based on operational patterns.
-        </p>
+      </div>
+
+      {/* MODEL EVALUATION METRICS (Requirements #3 & #4 - Exhibited directly below predicted delivery time in exact order) */}
+      <div className="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/60">
+        <div className="flex items-center justify-between border-b border-slate-700/60 pb-2">
+          <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+            <Award className="w-4 h-4 text-emerald-400" />
+            Model Evaluation Metrics ({selected_model})
+          </h4>
+          <span className="text-[10px] text-slate-400">Test Set Metrics</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          
+          {/* 2. RMSE Score */}
+          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1 relative group">
+            <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-semibold text-slate-300">RMSE</span>
+              <HelpCircle className="w-3.5 h-3.5 text-slate-500 cursor-help" />
+            </div>
+            <div className="text-lg font-bold text-sky-400">
+              {typeof rmseVal === 'number' ? `${rmseVal} min` : rmseVal}
+            </div>
+            <p className="text-[10px] text-slate-400 line-clamp-2">
+              Average prediction error with greater weight given to larger errors.
+            </p>
+          </div>
+
+          {/* 3. R² Score */}
+          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1 relative group">
+            <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-semibold text-slate-300">R² Score</span>
+              <HelpCircle className="w-3.5 h-3.5 text-slate-500 cursor-help" />
+            </div>
+            <div className="text-lg font-bold text-emerald-400">
+              {r2Val}
+            </div>
+            <p className="text-[10px] text-slate-400 line-clamp-2">
+              Indicates how well the model explains variation in delivery time.
+            </p>
+          </div>
+
+          {/* 4. MAE Score */}
+          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1 relative group">
+            <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-semibold text-slate-300">MAE</span>
+              <HelpCircle className="w-3.5 h-3.5 text-slate-500 cursor-help" />
+            </div>
+            <div className="text-lg font-bold text-amber-400">
+              {typeof maeVal === 'number' ? `${maeVal} min` : maeVal}
+            </div>
+            <p className="text-[10px] text-slate-400 line-clamp-2">
+              Average absolute prediction error in minutes.
+            </p>
+          </div>
+
+        </div>
       </div>
 
       {/* Distance & Traffic stats */}
@@ -86,7 +144,7 @@ export default function PredictionCard({ prediction, error }) {
         </div>
       </div>
 
-      {/* Prediction Explanation Section (Requirement #3) */}
+      {/* Prediction Explanation Section */}
       <div className="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/60">
         <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
           <BarChart2 className="w-4 h-4 text-orange-400" />

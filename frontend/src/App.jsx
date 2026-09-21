@@ -8,7 +8,6 @@ import PredictionPage from './pages/PredictionPage';
 import PredictionHistoryPage from './pages/PredictionHistoryPage';
 import ModelInsightsPage from './pages/ModelInsightsPage';
 import SystemInfoPage from './pages/SystemInfoPage';
-import AboutPage from './pages/AboutPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -132,8 +131,6 @@ export default function App() {
         {activeTab === 'system' && (
           <SystemInfoPage API_BASE_URL={API_BASE_URL} />
         )}
-
-        {activeTab === 'about' && <AboutPage />}
       </main>
 
       {/* Clean Footer */}

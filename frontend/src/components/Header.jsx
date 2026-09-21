@@ -1,22 +1,21 @@
 import React from 'react';
-import { Utensils, LayoutDashboard, Calculator, History, LineChart, Cpu, Info, Home } from 'lucide-react';
+import { Utensils, LayoutDashboard, Calculator, History, LineChart, Cpu } from 'lucide-react';
 
 export default function Header({ activeTab, setActiveTab, isBackendConnected }) {
   const navItems = [
-    { id: 'home', label: 'Home', icon: Home },
+    { id: 'home', label: 'Home', icon: LayoutDashboard },
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'predict', label: 'Predict', icon: Calculator },
     { id: 'history', label: 'History', icon: History },
     { id: 'insights', label: 'Model Insights', icon: LineChart },
     { id: 'system', label: 'System Info', icon: Cpu },
-    { id: 'about', label: 'About', icon: Info },
   ];
 
   return (
     <header className="bg-slate-800/90 backdrop-blur border-b border-slate-700/60 sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
         
-        {/* Brand Header - Clean Title */}
+        {/* Brand Header */}
         <div 
           onClick={() => setActiveTab('home')}
           className="flex items-center space-x-3 cursor-pointer group"
@@ -31,7 +30,7 @@ export default function Header({ activeTab, setActiveTab, isBackendConnected }) 
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs (Without About Section) */}
         <nav className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 scrollbar-none">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -40,7 +39,7 @@ export default function Header({ activeTab, setActiveTab, isBackendConnected }) 
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition whitespace-nowrap ${
+                className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold transition whitespace-nowrap ${
                   isActive
                     ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
                     : 'text-slate-300 hover:text-white hover:bg-slate-700/60'

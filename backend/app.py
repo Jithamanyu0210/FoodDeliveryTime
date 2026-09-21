@@ -24,9 +24,15 @@ SINGLE_MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model', 'delivery_m
 RESULTS_PATH = os.path.join(os.path.dirname(__file__), 'model', 'evaluation_results.json')
 
 models_dict = {}
+evaluation_metrics_map = {
+    'Gradient Boosting Regressor': {'mae': 3.30, 'rmse': 4.14, 'r2_score': 0.8055},
+    'Decision Tree Regressor': {'mae': 3.30, 'rmse': 4.21, 'r2_score': 0.7986},
+    'KNN Regressor': {'mae': 3.87, 'rmse': 4.95, 'r2_score': 0.7224},
+    'Linear Regression': {'mae': 4.81, 'rmse': 6.06, 'r2_score': 0.5835}
+}
 
 def load_trained_models():
-    global models_dict
+    global models_dict, evaluation_metrics_map
     if os.path.exists(MODELS_PATH):
         try:
             models_dict = joblib.load(MODELS_PATH)
@@ -40,6 +46,21 @@ def load_trained_models():
             print(f"Loaded single model fallback from {SINGLE_MODEL_PATH}")
         except Exception as e:
             print(f"Error loading single model: {e}")
+
+    # Load actual evaluation results if file exists
+    if os.path.exists(RESULTS_PATH):
+        try:
+            with open(RESULTS_PATH, 'r') as f:
+                data = json.load(f)
+                if 'model_comparison' in data:
+                    for m in data['model_comparison']:
+                        evaluation_metrics_map[m['model_name']] = {
+                            'mae': m.get('mae'),
+                            'rmse': m.get('rmse'),
+                            'r2_score': m.get('r2_score')
+                        }
+        except Exception as e:
+            print(f"Error reading evaluation results: {e}")
 
 load_trained_models()
 
@@ -65,7 +86,6 @@ def get_available_models():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     
-    # Fallback list if results file is missing
     fallback_models = [
         {'model_name': 'Gradient Boosting Regressor', 'mae': 3.30, 'rmse': 4.14, 'r2_score': 0.8055, 'selected': True},
         {'model_name': 'Decision Tree Regressor', 'mae': 3.30, 'rmse': 4.21, 'r2_score': 0.7986, 'selected': False},
@@ -125,7 +145,7 @@ def get_insights():
 
 @app.route('/api/predict', methods=['POST'])
 def predict_delivery_time():
-    global models_dict
+    global models_dict, evaluation_metrics_map
     if not models_dict:
         load_trained_models()
         if not models_dict:
@@ -136,10 +156,8 @@ def predict_delivery_time():
         if not data:
             return jsonify({'error': 'No input data provided'}), 400
 
-        # Model selection logic
         requested_model = data.get('model_name', 'Gradient Boosting Regressor')
         if requested_model not in models_dict:
-            # Fallback to available model if requested is missing
             requested_model = list(models_dict.keys())[0]
 
         pipeline = models_dict[requested_model]
@@ -151,13 +169,18 @@ def predict_delivery_time():
         prediction = pipeline.predict(X_input)
         predicted_min = float(np.round(prediction[0], 1))
 
-        # Generate Feature Importance Explanation
+        # Retrieve actual evaluation metrics for the selected model
+        selected_metrics = evaluation_metrics_map.get(requested_model, {
+            'mae': 3.30,
+            'rmse': 4.14,
+            'r2_score': 0.8055
+        })
+
         traffic = data.get('Road_traffic_density', 'Medium')
         weather = data.get('Weather_conditions', 'Sunny')
         rating = float(data.get('Delivery_person_Ratings', 4.7))
         multiple_del = float(data.get('multiple_deliveries', 1.0))
 
-        # Key impact factors for explanation
         feature_impacts = [
             {'feature': 'Delivery Distance', 'importance': 38.5, 'value': f"{round(distance_km, 1)} km", 'impact': 'High impact on total travel duration'},
             {'feature': 'Traffic Density', 'importance': 24.2, 'value': str(traffic), 'impact': 'High impact on transit delay' if traffic in ['High', 'Jam'] else 'Low impact'},
@@ -172,8 +195,9 @@ def predict_delivery_time():
         response = {
             'success': True,
             'predicted_time_min': predicted_min,
-            'distance_km': round(float(distance_km), 2),
             'selected_model': requested_model,
+            'metrics': selected_metrics,
+            'distance_km': round(float(distance_km), 2),
             'feature_importances': feature_impacts,
             'explanation_text': explanation_summary,
             'inputs_summary': {

@@ -94,15 +94,6 @@ export default function DeliveryForm({ onSubmit, loading, onClear, availableMode
 
   return (
     <form onSubmit={handleSubmit} className="bg-slate-800/90 rounded-2xl p-6 border border-slate-700/70 shadow-xl space-y-6">
-      
-      {/* Header */}
-      <div className="border-b border-slate-700/60 pb-4 flex items-center justify-between">
-        <h2 className="text-base font-bold text-white flex items-center gap-2">
-          <Navigation className="w-5 h-5 text-orange-400" />
-          Prediction Input Form
-        </h2>
-        <span className="text-xs text-slate-400">Specify operational inputs</span>
-      </div>
 
       {/* Model Selection Dropdown (Requirement #2) */}
       <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 space-y-2">
